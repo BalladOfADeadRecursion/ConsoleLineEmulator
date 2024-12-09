@@ -1,6 +1,10 @@
 ﻿#include <iostream>
 #include <string>
+#include <filesystem>
+#include <fstream>
+#include <cstdlib>
 using namespace std;
+namespace fs = std::filesystem; // Для работы с файловой системой
 
 enum Command {
     HELP,
@@ -25,61 +29,38 @@ enum Command {
 
 Command getCommandEnum(const string& command) 
 {
-    if (command == "help") {
-        return HELP;
+    if (command == "help") return HELP;
+    else if (command == "exit") return EXIT;
+    else if (command == "exit") return CD;
+    else if (command == "exit") return LS;
+    else if (command == "exit") return MKDIR;
+    else if (command == "exit") return RMDIR;
+    else if (command == "exit") return CAT;
+    else if (command == "exit") return TOUCH;
+    else if (command == "exit") return NANO;
+    else if (command == "exit") return RM;
+    else if (command == "exit") return PING;
+    else if (command == "exit") return UNAME;
+    else if (command == "exit") return UPTIME;
+    else if (command == "exit") return WHOAMI;
+    else if (command == "exit") return DATE;
+    else if (command == "exit") return HISTORY;
+    else if (command == "exit") return CLEAR;
+    else return UNKNOWN;
+}
+
+void changeDirectory(const string& path) {
+    if (fs::exists(path) && fs::is_directory(path))
+    {
+        fs::current_path(path);
+        cout << "Директория изменена на: " << fs::current_path() << endl;
     }
-    else if (command == "exit") {
-        return EXIT;
-    }
-    else if (command == "exit") {
-        return CD;
-    }
-    else if (command == "exit") {
-        return LS;
-    }
-    else if (command == "exit") {
-        return MKDIR;
-    }
-    else if (command == "exit") {
-        return RMDIR;
-    }
-    else if (command == "exit") {
-        return CAT;
-    }
-    else if (command == "exit") {
-        return TOUCH;
-    }
-    else if (command == "exit") {
-        return NANO;
-    }
-    else if (command == "exit") {
-        return RM;
-    }
-    else if (command == "exit") {
-        return PING;
-    }
-    else if (command == "exit") {
-        return UNAME;
-    }
-    else if (command == "exit") {
-        return UPTIME;
-    }
-    else if (command == "exit") {
-        return WHOAMI;
-    }
-    else if (command == "exit") {
-        return DATE;
-    }
-    else if (command == "exit") {
-        return HISTORY;
-    }
-    else if (command == "exit") {
-        return CLEAR;
-    }
-    else {
-        return UNKNOWN;
+    else
+    {
+        cout << "Ошибка, указанная директория не существует. " << endl;
     }
 }
+
 
 int main() {
     setlocale(LC_ALL, "Rus"); // Set locale for Russian if needed
@@ -116,53 +97,73 @@ int main() {
             cout << "exit    — выход из консоли." << endl;
             break;
 
-        case CD:
+        case CD: {
+            string path;
+            cout << "Введите путь к директории: ";
+            cin >> path;
+            changeDirectory(path);
             break;
+        }
 
         case LS:
+            listDirectory();
             break;
 
         case MKDIR:
+            cout << "Create a new directory" << endl;
             break;
 
         case RMDIR:
-            break;
-
-        case CAT:
+            cout << "Remove empty directory" << endl;
             break;
 
         case TOUCH:
+            cout << "Create an empty file" << endl;
+            break;
+
+        case CAT:
+            cout << "Display contents of a file" << endl;
             break;
 
         case NANO:
+            cout << "Text file editing" << endl;
             break;
 
         case RM:
+            cout << "Remove files" << endl;
             break;
 
         case PING:
+            cout << "Ping a host" << endl;
             break;
 
         case UNAME:
+            cout << "System information" << endl;
             break;
 
         case UPTIME:
+            cout << "System uptime" << endl;
             break;
 
         case WHOAMI:
+            cout << "Display current user" << endl;
             break;
 
         case DATE:
+            cout << "Display current date and time" << endl;
             break;
 
         case HISTORY:
+            cout << "Show command history" << endl;
             break;
 
         case CLEAR:
+            cout << "Clear the console" << endl;
             break;
-        
+
         case EXIT:
-            return 0; 
+            cout << "Exiting the program..." << endl;
+            return 0;  // Exit the program
 
         default:
             cout << "Unknown command" << endl;
